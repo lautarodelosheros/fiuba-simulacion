@@ -10,7 +10,7 @@ class GCL:
 
     def random(self):
         self.xn = ((self.a * self.xn) + self.c) % self.m
-        return self.xn
+        return self.xn / float(self.m)
 
     def randomArray(self, n):
         numeros = []
