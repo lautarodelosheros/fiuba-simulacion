@@ -9,7 +9,7 @@ class Dado:
         self.generador = generador
 
     def lanzar(self):
-        return math.floor(self.generador.random() * self.caras)
+        return math.ceil(self.generador.random() * self.caras)
 
     def lanzarTantoComo(self, n):
         lanzamientos = []
