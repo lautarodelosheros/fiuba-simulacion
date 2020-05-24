@@ -4,11 +4,12 @@ import random
 
 x = 0
 y = 0
-
+x_data = []
+y_data = []
 fig, ax = plt.subplots()
-ax.set_xlim(-25, 25)
-ax.set_ylim(-20, 20)
-mat, = ax.plot(x, y, 'o')
+ax.axis([-25, 25, -20, 20])
+line, = ax.plot(0, 0, color='b', lw=1.1, ls='dashed')
+mat, = ax.plot(x, y, 'o', color='b')
 
 def animate_rw(i):
 
@@ -26,8 +27,12 @@ def animate_rw(i):
     else:
         y -= 1
 
+    x_data.append(x)
+    y_data.append(y)
     mat.set_data([x], [y])
-    return mat,
+    line.set_xdata(x_data)
+    line.set_ydata(y_data)
+    return mat, line,
 
 def gen():
     i = 0
