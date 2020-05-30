@@ -1,5 +1,4 @@
 # SIMULACION DADO DE N CARAS
-from gcl import GCL
 import math
 
 
