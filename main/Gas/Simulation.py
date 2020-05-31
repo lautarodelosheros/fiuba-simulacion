@@ -8,10 +8,10 @@ from Gas import Gas
 
 print()
 
-PARTICLES = 10
+PARTICLES = 1000
 ROWS = 200
 COLUMNS = 100
-frame_num = 50
+frame_num = 3000
 
 gas = Gas(PARTICLES, ROWS, COLUMNS)
 gas.map.remove_wall()
@@ -52,8 +52,7 @@ iterations = []
 for i in range(frame_num):
     x_list = []
     y_list = []
-    if i % 100 == 0:
-        print('i', i)
+
 
     for j in range(len(gas.particles)):
         x_list.append(gas.particles[j].column)
