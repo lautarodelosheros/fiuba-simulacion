@@ -53,13 +53,13 @@ for i in range(frame_num):
     x_list = []
     y_list = []
 
-
     for j in range(len(gas.particles)):
         x_list.append(gas.particles[j].column)
         y_list.append(gas.particles[j].row)
 
     iterations.append((x_list, y_list))
     gas.tick()
+
 
 # print('len(gas.particles)', len(gas.particles))
 # print('iterations[0][0][0]', iterations[0][0][0])
@@ -94,15 +94,14 @@ def animate(i):
     # return iterations[i]
 
 
-def gen():
-    i = 0
-    while i < frame_num:
-        yield i
-        i += 1
-
-
 # call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=gen, interval=1, blit=False, repeat=False)
+                               frames=frame_num, interval=1, blit=True, repeat=False)
 
-plt.show()
+# Set up formatting for the movie files
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
+
+anim.save('output.mp4')
+
+# plt.show()
