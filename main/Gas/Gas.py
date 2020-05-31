@@ -8,9 +8,9 @@ class Gas:
         self.map = Map(columns, rows)
 
         first_half = [Particle(random.randint(1, columns // 2), random.randint(1, rows), 'g') for x in
-                     range(particles // 2)]
-        second_half = [Particle(random.randint(columns // 2 + 1, columns), random.randint(1, rows), 'r') for x in
                       range(particles // 2)]
+        second_half = [Particle(random.randint(columns // 2 + 1, columns), random.randint(1, rows), 'r') for x in
+                       range(particles // 2 + (1 if particles % 2 == 0 else 0))]
 
         self.particles = first_half + second_half
 

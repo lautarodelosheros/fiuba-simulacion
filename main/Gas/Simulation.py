@@ -54,8 +54,8 @@ for i in range(frame_num):
     y_list = []
 
     for j in range(len(gas.particles)):
-        x_list.append(gas.particles[j].x)
-        y_list.append(gas.particles[j].y)
+        x_list.append(gas.particles[j].column)
+        y_list.append(gas.particles[j].row)
 
     iterations.append((x_list, y_list))
     gas.tick()

@@ -2,20 +2,21 @@ from Directions import Directions
 from Tile import Tile
 import random
 
+
 class Particle:
     def __init__(self, x, y, color):
-        self.x = x
-        self.y = y
+        self.column = x
+        self.row = y
         self.color = color
 
     def move(self, available_map):
         direction = random.choice(list(Directions))
 
-        next_x, next_y = self.x + direction.value[0], self.y + direction.value[1]
+        next_column, next_row = self.column + direction.value[0], self.row + direction.value[1]
 
-        if available_map.position_is_available(next_x, next_y):
-            self.x = next_x
-            self.y = next_y
+        if available_map.position_is_available(next_column, next_row):
+            self.column = next_column
+            self.row = next_row
 
     def get_color(self):
         return self.color

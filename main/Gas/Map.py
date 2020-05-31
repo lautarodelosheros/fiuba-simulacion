@@ -21,8 +21,8 @@ class Map:
         for x in range(self.rows):
             self.map[x][self.wall_column] = Tile.WALL
 
-    def position_is_available(self, y, x):
-        return self.map[x][y] != Tile.WALL
+    def position_is_available(self, column, row):
+        return self.map[row][column] != Tile.WALL
 
     def remove_wall(self, lower_half=False):
         if not lower_half:
