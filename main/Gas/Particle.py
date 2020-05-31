@@ -2,29 +2,20 @@ from Directions import Directions
 from Tile import Tile
 import random
 
-
 class Particle:
-    def __init__(self, x, y, first_half=True):
-        self.row = x
-        self.column = y
-        self.velocity = 1
-        self.color = 'g' if first_half else 'r'
+    def __init__(self, x, y, color):
+        self.x = x
+        self.y = y
+        self.color = color
 
     def move(self, available_map):
         direction = random.choice(list(Directions))
 
-        row_velocity = self.velocity * direction.value[0]
-        column_velocity = self.velocity * direction.value[1]
-        new_row = self.row + row_velocity
-        new_column = self.column + column_velocity
+        next_x, next_y = self.x + direction.value[0], self.y + direction.value[1]
 
-        try:
-            if not available_map.get_position(new_row, new_column) == Tile.WALL:
-                self.row = new_row
-                self.column = new_column
-        except IndexError:
-            self.row -= row_velocity
-            self.column -= column_velocity
+        if available_map.position_is_available(next_x, next_y):
+            self.x = next_x
+            self.y = next_y
 
     def get_color(self):
         return self.color

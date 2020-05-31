@@ -5,17 +5,12 @@ import random
 
 class Gas:
     def __init__(self, particles, rows, columns):
-        self.map = Map({"columns": columns, "rows": rows})
-        half_particles = particles // 2
+        self.map = Map(columns, rows)
 
-        first_half_range = self.map.get_half_columns_range(True)
-        second_half_range = self.map.get_half_columns_range(False)
-        rows_range = self.map.get_rows_range()
-
-        first_half = [Particle(random.choice(rows_range), random.choice(first_half_range)) for x in
-                      range(half_particles)]
-        second_half = [Particle(random.choice(rows_range), random.choice(second_half_range), False) for x in
-                       range(half_particles + (1 if particles % 2 > 0 else 0))]
+        first_half = [Particle(random.randint(1, columns // 2), random.randint(1, rows), 'g') for x in
+                     range(particles // 2)]
+        second_half = [Particle(random.randint(columns // 2 + 1, columns), random.randint(1, rows), 'r') for x in
+                      range(particles // 2)]
 
         self.particles = first_half + second_half
 

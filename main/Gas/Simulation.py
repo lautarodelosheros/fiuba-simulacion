@@ -54,8 +54,8 @@ for i in range(frame_num):
     y_list = []
 
     for j in range(len(gas.particles)):
-        x_list.append(gas.particles[j].column)
-        y_list.append(gas.particles[j].row)
+        x_list.append(gas.particles[j].x)
+        y_list.append(gas.particles[j].y)
 
     iterations.append((x_list, y_list))
     gas.tick()
@@ -99,9 +99,9 @@ anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=frame_num, interval=1, blit=True, repeat=False)
 
 # Set up formatting for the movie files
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
+#Writer = animation.writers['ffmpeg']
+#writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
 
-anim.save('output.mp4')
+#anim.save('output.mp4')
 
-# plt.show()
+plt.show()

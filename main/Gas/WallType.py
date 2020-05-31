@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class WallType(Enum):
-    ROW = "row",
-    COLUMN = "column"
+    ROW = 0,
+    COLUMN = 1

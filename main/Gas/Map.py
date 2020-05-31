@@ -1,11 +1,10 @@
 from Tile import Tile
 
-
 class Map:
-    def __init__(self, dimensions):
-        self.rows = dimensions["rows"] + 2
-        self.columns = dimensions["columns"] + 3
-        self.map = [[Tile.NONE for y in range(self.columns)] for x in
+    def __init__(self, columns, rows):
+        self.columns = columns + 3
+        self.rows = rows + 2
+        self.map = [[Tile.NONE for x in range(self.columns)] for y in
                     range(self.rows)]
 
         for x in range(self.columns):
@@ -22,20 +21,8 @@ class Map:
         for x in range(self.rows):
             self.map[x][self.wall_column] = Tile.WALL
 
-    def get_position(self, row, column):
-        try:
-            return self.map[row][column]
-        except IndexError:
-            print('error out of bounds', row, column, self.rows, self.columns)
-            raise
-
-    def get_rows_range(self):
-        return range(1, self.rows)
-
-    def get_half_columns_range(self, first_half=False):
-        if first_half:
-            return range(1, self.wall_column)
-        return range(self.wall_column + 1, self.columns - 1)
+    def position_is_available(self, y, x):
+        return self.map[x][y] != Tile.WALL
 
     def remove_wall(self, lower_half=False):
         if not lower_half:
@@ -49,7 +36,7 @@ class Map:
 
 
 if __name__ == '__main__':
-    test = Map({"columns": 2, "rows": 2})
+    test = Map(2, 2)
 
     print(test)
 
@@ -60,7 +47,7 @@ if __name__ == '__main__':
 
     print('----------------------------------')
 
-    test = Map({"columns": 2, "rows": 2})
+    test = Map(2, 2)
 
     print(test)
 
