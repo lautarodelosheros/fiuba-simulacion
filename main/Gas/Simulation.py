@@ -1,16 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
 import matplotlib.animation as animation
+import matplotlib.lines as m_lines
+import matplotlib
+
 from Gas import Gas
 
 print()
 
-gas = Gas()
+PARTICLES = 10
+ROWS = 200
+COLUMNS = 100
+frame_num = 50
 
-
-# # Fixing random state for reproducibility
-# np.random.seed(19680801)
+gas = Gas(PARTICLES, ROWS, COLUMNS)
+gas.map.remove_wall()
 
 
 def get_color():
@@ -18,15 +22,13 @@ def get_color():
 
 
 fig = plt.figure()
-ax1 = plt.axes(xlim=(0, 200), ylim=(0, 200))
-line, = ax1.plot([], [], lw=0.1)
+ax1 = plt.axes(xlim=(0, COLUMNS), ylim=(0, ROWS))
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
 
-# plotlays, plotcols = [2], ["black", "red"]
 lines = []
-for index in range(2):
-    lobj, = ax1.plot([], [], linewidth=0, color=get_color(), marker='o')
+for particle in gas.particles:
+    lobj, = ax1.plot([], [], linewidth=0, color=particle.get_color(), marker='o', markersize="4")
     lines.append(lobj)
 
 
@@ -39,97 +41,69 @@ def init():
 x1, y1 = [], []
 x2, y2 = [], []
 
+# wall = m_lines.Line2D([gas.map.wall_column, gas.map.wall_column], [0, ROWS], color='k')
+# ax1.add_line(wall)
+
+
 # fake data
-frame_num = 24
-gps_data = [-104 - (4 * np.random.rand(2, 3)), 31 + 3 * np.random.rand(2, 3)]
+
+iterations = []
+
+for i in range(frame_num):
+    x_list = []
+    y_list = []
+    if i % 100 == 0:
+        print('i', i)
+
+    for j in range(len(gas.particles)):
+        x_list.append(gas.particles[j].column)
+        y_list.append(gas.particles[j].row)
+
+    iterations.append((x_list, y_list))
+    gas.tick()
+
+# print('len(gas.particles)', len(gas.particles))
+# print('iterations[0][0][0]', iterations[0][0][0])
+
+
+# print('iterations', len(iterations))
+
+
+# print(lines)
 
 
 def animate(i):
-    x = gas.particles[0].x
-    y = gas.particles[0].y
-    # print('x', x)
-    # print('y', y)
-    x1 = [x]
-    y1 = [y]
+    # print('len(lines)', len(lines))
+    # print('iteration', i)
+    if i % 100 == 0:
+        print('i', i)
 
-    # print('x1', x1)
-    # print('y1', y1)
+    # lines = []
 
-    x2 = [x]
-    y2 = [y]
+    for j in range(len(gas.particles)):
+        # print('i', i)
+        # print('j', j)
+        # print('iterations[i]', iterations[i])
+        # print('iterations[i][0', iterations[i][0])
+        # print('iterations[i][1', iterations[i][1])
+        lines[j].set_data(iterations[i][0][j], iterations[i][1][j])
+    # iterations.append(lines)
+    # gas.tick()
 
-    xlist = [x1, x2]
-    ylist = [y1, y2]
-
-    # for index in range(0,1):
-    for lnum, line in enumerate(lines):
-        line.set_data(xlist[lnum], ylist[lnum])  # set data for each line separately.
-
-    gas.tick()
     return lines
 
+    # return iterations[i]
 
-# animate(1)
-# animate(2)
+
+def gen():
+    i = 0
+    while i < frame_num:
+        yield i
+        i += 1
+
 
 # call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=frame_num, interval=10, blit=True)
+                               frames=gen, interval=1, blit=False, repeat=False)
 
 plt.show()
-
-# lines = []
-# x1, y1 = [], []
-# x2, y2 = [], []
-#
-#
-# def init():
-#     for line in lines:
-#         line.set_data([], [])
-#     return lines
-#
-#
-# def update_lines(i):
-#     x = [1, 2, 3]
-#     y = [2, 3, 4]
-#     x1.append(x)
-#     y1.append(y)
-#
-#     x = [4, 5, 6]
-#     y = [7, 8, 9]
-#     x2.append(x)
-#     y2.append(y)
-#
-#     xlist = [x1, x2]
-#     ylist = [y1, y2]
-#
-#     for lnum, line in enumerate(lines):
-#         # line.set_data(gas.particles[lnum].x, gas.particles[lnum].y)  # set data for each line separately.
-#         line.set_data(xlist[lnum], ylist[lnum])
-#
-#     lines
-#
-#
-# print()
-#
-# fig1 = plt.figure()
-#
-# for index in range(2):
-#     lobj = plt.plot([], [], lw=2, color=get_color())[0]
-#     lines.append(lobj)
-#
-# plt.xlim(0, 20)
-# plt.ylim(0, 20)
-# plt.xlabel('x')
-# plt.title('test')
-# line_ani = animation.FuncAnimation(fig1, update_lines, 25, init_func=init,
-#                                    interval=1000, blit=True)
-#
-# x = np.arange(-9, 10)
-# y = np.arange(-9, 10).reshape(-1, 1)
-# base = np.hypot(x, y)
-# ims = []
-# # To save this second animation with some metadata, use the following command:
-# # im_ani.save('im.mp4', metadata={'artist':'Guido'})
-#
-# plt.show()

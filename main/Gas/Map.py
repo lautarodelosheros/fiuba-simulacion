@@ -26,7 +26,8 @@ class Map:
         try:
             return self.map[row][column]
         except IndexError:
-            print('error out of bounds', row, column)
+            print('error out of bounds', row, column, self.rows, self.columns)
+            raise
 
     def get_rows_range(self):
         return range(1, self.rows)

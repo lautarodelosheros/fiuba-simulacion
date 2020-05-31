@@ -2,15 +2,11 @@ from Map import Map
 from Particle import Particle
 import random
 
-PARTICLES = 10
-ROWS = 200
-COLUMNS = 100
-
 
 class Gas:
-    def __init__(self):
-        self.map = Map({"columns": COLUMNS, "rows": ROWS})
-        half_particles = PARTICLES // 2
+    def __init__(self, particles, rows, columns):
+        self.map = Map({"columns": columns, "rows": rows})
+        half_particles = particles // 2
 
         first_half_range = self.map.get_half_columns_range(True)
         second_half_range = self.map.get_half_columns_range(False)
@@ -18,8 +14,9 @@ class Gas:
 
         first_half = [Particle(random.choice(rows_range), random.choice(first_half_range)) for x in
                       range(half_particles)]
-        second_half = [Particle(random.choice(rows_range), random.choice(second_half_range)) for x in
-                       range(half_particles)]
+        second_half = [Particle(random.choice(rows_range), random.choice(second_half_range), False) for x in
+                       range(half_particles + (1 if particles % 2 > 0 else 0))]
+
         self.particles = first_half + second_half
 
     def tick(self):
