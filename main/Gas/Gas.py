@@ -1,3 +1,5 @@
+from typing import List
+
 from Map import Map
 from Particle import Particle
 import random
@@ -17,7 +19,7 @@ class Gas:
         second_half = [Particle(random.choice(rows_range), random.choice(second_half_range), False) for x in
                        range(half_particles + (1 if particles % 2 > 0 else 0))]
 
-        self.particles = first_half + second_half
+        self.particles: List[Particle] = first_half + second_half
 
     def tick(self):
         for particle in self.particles:

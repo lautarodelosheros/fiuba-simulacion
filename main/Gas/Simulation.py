@@ -100,7 +100,7 @@ anim = animation.FuncAnimation(fig, animate, init_func=init,
 
 # Set up formatting for the movie files
 Writer = animation.writers['ffmpeg']
-writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
+writer = Writer(fps=30, metadata=dict(artist='Me'), bitrate=1800)
 
 anim.save('output.mp4')
 

@@ -37,6 +37,9 @@ class Map:
             return range(1, self.wall_column)
         return range(self.wall_column + 1, self.columns - 1)
 
+    def get_columns_range(self):
+        return range(1, self.columns - 1)
+
     def remove_wall(self, lower_half=False):
         if not lower_half:
             for x in range(1, self.rows // 2):

@@ -141,3 +141,7 @@ cython_debug/
 .idea/
 
 manim
+
+.DS_Store
+
+*.mp4

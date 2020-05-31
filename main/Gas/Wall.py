@@ -1,4 +1,4 @@
-from .WallType import WallType
+from WallType import WallType
 
 
 class Wall:
