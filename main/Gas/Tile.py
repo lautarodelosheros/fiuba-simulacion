@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class Tile(Enum):
-    NONE = "N",
-    WALL = "W"
+    NONE = 0,
+    WALL = 1

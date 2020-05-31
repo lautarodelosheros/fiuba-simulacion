@@ -1,9 +1,8 @@
-from WallType import WallType
-
+from .WallType import WallType
 
 class Wall:
     def __init__(self, type, size, reverse):
-        self.type = type;
+        self.type = type
         self.size = size
         self.reversed = reverse
 
