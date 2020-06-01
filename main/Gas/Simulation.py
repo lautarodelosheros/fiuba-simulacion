@@ -8,7 +8,7 @@ from Gas import Gas
 
 print()
 
-PARTICLES = 1000
+PARTICLES = 20000
 ROWS = 200
 COLUMNS = 100
 frame_num = 3000
@@ -26,20 +26,16 @@ ax1 = plt.axes(xlim=(0, COLUMNS), ylim=(0, ROWS))
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
 
-lines = []
-for particle in gas.particles:
-    lobj, = ax1.plot([], [], linewidth=0, color=particle.get_color(), marker='o', markersize="4")
-    lines.append(lobj)
+mat_g, = ax1.plot([], [], linewidth=0, color='g', marker='o', markersize="1")
+mat_r, = ax1.plot([], [], linewidth=0, color='r', marker='o', markersize="1")
+mats = [mat_g, mat_r]
 
 
 def init():
-    for line in lines:
-        line.set_data([], [])
-    return lines
+    for mat in mats:
+        mat.set_data([], [])
+    return mats
 
-
-x1, y1 = [], []
-x2, y2 = [], []
 
 # wall = m_lines.Line2D([gas.map.wall_column, gas.map.wall_column], [0, ROWS], color='k')
 # ax1.add_line(wall)
@@ -50,58 +46,45 @@ x2, y2 = [], []
 iterations = []
 
 for i in range(frame_num):
-    x_list = []
-    y_list = []
+    x_list_g = []
+    y_list_g = []
+    x_list_r = []
+    y_list_r = []
+
+    if i % 100 == 0:
+        print('iteration', i)
 
     for j in range(len(gas.particles)):
-        x_list.append(gas.particles[j].column)
-        y_list.append(gas.particles[j].row)
+        particle = gas.particles[j]
+        if particle.color == 'g':
+            x_list_g.append(particle.column)
+            y_list_g.append(particle.row)
+        else:
+            x_list_r.append(particle.column)
+            y_list_r.append(particle.row)
 
-    iterations.append((x_list, y_list))
+    iterations.append(((x_list_g, y_list_g), (x_list_r, y_list_r)))
     gas.tick()
 
 
-# print('len(gas.particles)', len(gas.particles))
-# print('iterations[0][0][0]', iterations[0][0][0])
-
-
-# print('iterations', len(iterations))
-
-
-# print(lines)
-
-
 def animate(i):
-    # print('len(lines)', len(lines))
-    # print('iteration', i)
     if i % 100 == 0:
-        print('i', i)
+        print('animate', i)
 
-    # lines = []
+    mats[0].set_data(iterations[i][0][0], iterations[i][0][1])
+    mats[1].set_data(iterations[i][1][0], iterations[i][1][1])
 
-    for j in range(len(gas.particles)):
-        # print('i', i)
-        # print('j', j)
-        # print('iterations[i]', iterations[i])
-        # print('iterations[i][0', iterations[i][0])
-        # print('iterations[i][1', iterations[i][1])
-        lines[j].set_data(iterations[i][0][j], iterations[i][1][j])
-    # iterations.append(lines)
-    # gas.tick()
-
-    return lines
-
-    # return iterations[i]
+    return mats
 
 
 # call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=frame_num, interval=1, blit=True, repeat=False)
+                               frames=frame_num, interval=50, blit=True, repeat=False)
 
 # Set up formatting for the movie files
-#Writer = animation.writers['ffmpeg']
-#writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
+Writer = animation.writers['ffmpeg']
+writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
 
-#anim.save('output.mp4')
+anim.save('20000-3000frames.mp4')
 
-plt.show()
+# plt.show()
