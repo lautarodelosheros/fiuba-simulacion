@@ -18,6 +18,20 @@ class Gas:
         for particle in self.particles:
             particle.move(self.map)
 
+    def get_density_on_each_half(self):
+        first_half = [particle for particle in self.particles if particle.column <= self.map.wall_column]
+        second_half = [particle for particle in self.particles if particle.column > self.map.wall_column]
+
+        first_half_red = [particle for particle in first_half if particle.get_color() == 'r']
+        second_half_red = [particle for particle in second_half if particle.get_color() == 'r']
+
+        red_density_first_half = len(first_half_red) / len(first_half)
+        green_density_first_half = (len(first_half) - len(first_half_red)) / len(first_half)
+        red_density_second_half = len(second_half_red) / len(second_half)
+        green_density_second_half = (len(second_half) - len(second_half_red)) / len(second_half)
+
+        return red_density_first_half, green_density_first_half, red_density_second_half, green_density_second_half
+
     def __str__(self):
         return ", ".join(
             map(lambda particle: str(particle), self.particles))

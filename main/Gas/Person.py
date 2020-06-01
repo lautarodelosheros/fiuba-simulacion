@@ -30,6 +30,9 @@ class Person(Particle):
     def get_color(self):
         return 'g' if self.healthy else 'r'
 
+    def is_healthy(self):
+        return self.healthy
+
     def move(self, available_map, society):
         if not self.healthy:
             self.sick_days += 1

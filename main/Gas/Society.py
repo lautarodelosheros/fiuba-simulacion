@@ -48,3 +48,6 @@ class Society(Gas):
     def tick(self):
         for particle in self.particles:
             particle.move(self.map, self)
+
+    def get_healthy_count(self):
+        return len([particle for particle in self.particles if particle.is_healthy()])
