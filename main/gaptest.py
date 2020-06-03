@@ -1,5 +1,6 @@
 from gcl import GCL
 from scipy.stats import chi2
+import matplotlib.pyplot as plt
 
 MIN = 0.2
 MAX = 0.5
@@ -9,13 +10,16 @@ def gaptestGCL(minimo, maximo, n):
     gcl = GCL(97293, 1013904223, 1664525, 2**32)
     while not (minimo < gcl.random() < maximo):
         continue
-    gaps = [0] * 26
+    gaps_dict = {}
     for _ in range(n):
         gap = 0
         while not (minimo < gcl.random() < maximo): gap += 1
-        if gap >= 25: gaps[-1] += 1
-        else: gaps[gap] += 1
-    return gaps
+        gaps_dict[gap] = gaps_dict.get(gap, 0) + 1
+    gaps = [0] * max(gaps_dict.keys + 1)
+    for g in gaps_dict:
+        gaps[g] = gaps_dict[g]
+    bins = [gaps[i] if i < 25 else sum(gaps[i:]) for i in range(26)]
+    return gaps, bins
 
 def expected(i):
     if i == 25:
@@ -39,9 +43,15 @@ def testchi2(sig, df, D2):
     else:
         print("Hay evidencia para rechazar la hipótesis nula, el generador no pasa el test.")
 
+def graficar_hist(muestra):
+    fig, ax = plt.subplots()
+    ax.hist(muestra, bins=len(muestra))
+    plt.show()
+
 def main():
-    muestra_gaps = gaptestGCL(MIN, MAX, N)
-    D2 = create_D2(muestra_gaps, expected)
+    muestra_gaps, muestra_bins = gaptestGCL(MIN, MAX, N)
+    graficar_hist(muestra_gaps)
+    D2 = create_D2(muestra_bins, expected)
     testchi2(10e-2, 25, D2)
 
 main()
