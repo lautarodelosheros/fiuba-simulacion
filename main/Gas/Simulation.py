@@ -8,10 +8,10 @@ from Gas import Gas
 
 print()
 
-PARTICLES = 20000
+PARTICLES = 200
 ROWS = 200
 COLUMNS = 100
-frame_num = 3000
+frame_num = 30000
 
 gas = Gas(PARTICLES, ROWS, COLUMNS)
 LOWER_HALF_ONLY = True
@@ -147,7 +147,7 @@ anim.save(prefix + '_common_output.mp4')
 # Writer = animation.writers['ffmpeg']
 # writer = Writer(fps=60, metadata=dict(artist='Me'), bitrate=1800)
 
-left_density_ani.save(prefix + '_left_density_output.mp4')
-right_density_ani.save(prefix + '_right_density_output.mp4')
+# left_density_ani.save(prefix + '_left_density_output.mp4')
+# right_density_ani.save(prefix + '_right_density_output.mp4')
 
-# plt.show()
+plt.show()
