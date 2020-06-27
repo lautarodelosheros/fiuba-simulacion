@@ -21,7 +21,7 @@ t0 = 0
 dt = 0.1
 tol = 1e-3
 
-def simulate_SIR(y0, t0, dt, beta, gamma, tol=1, fig=0):
+def simulate_SIR(y0, t0, dt, beta, gamma, tol=1e-2, fig=0):
 
     r = integrate.ode(f, jac).set_integrator('vode')
     r.set_initial_value(y0, t0).set_f_params(beta, gamma).set_jac_params(beta, gamma)
