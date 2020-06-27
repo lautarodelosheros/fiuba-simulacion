@@ -19,7 +19,7 @@ def jac(t, y, beta, gamma):
 y0 = [0.97, 0.03]
 t0 = 0
 dt = 0.1
-tol = 5e-3
+tol = 1e-3
 
 def simulate_SIR(y0, t0, dt, beta, gamma, tol=1, fig=0):
 
